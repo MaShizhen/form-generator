@@ -744,7 +744,7 @@ export default {
   },
   methods: {
     render_fileds() {
-      this.restaurants = getFileds()
+      this.restaurants = getFileds() || []
     },
     addReg() {
       this.activeData.regList.push({
