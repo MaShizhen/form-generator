@@ -32,7 +32,7 @@
             </el-select>
           </el-form-item>
           <el-form-item v-if="activeData.vModel!==undefined" label="字段名">
-            <el-input v-model="activeData.vModel" placeholder="请输入字段名（v-model）" />
+            <el-autocomplete v-model="activeData.vModel" style="width: 100%" :fetch-suggestions="querySearchAsync" placeholder="请输入字段名（v-model）" @select="handleSelect" />
           </el-form-item>
           <el-form-item v-if="activeData.componentName!==undefined" label="组件名">
             {{ activeData.componentName }}
@@ -579,7 +579,7 @@ import IconsDialog from './IconsDialog'
 import {
   inputComponents, selectComponents, layoutComponents
 } from '@/components/generator/config'
-import { saveFormConf } from '@/utils/db'
+import { saveFormConf, getFileds } from '@/utils/db'
 
 const dateTimeFormat = {
   date: 'yyyy-MM-dd',
@@ -689,7 +689,8 @@ export default {
         label(data, node) {
           return data.componentName || `${data.label}: ${data.vModel}`
         }
-      }
+      },
+      restaurants: []
     }
   },
   computed: {
@@ -732,7 +733,13 @@ export default {
       deep: true
     }
   },
+  created() {
+    this.render_fileds()
+  },
   methods: {
+    render_fileds() {
+      this.restaurants = getFileds()
+    },
     addReg() {
       this.activeData.regList.push({
         pattern: '',
@@ -869,6 +876,22 @@ export default {
       let target = inputComponents.find(item => item.tagIcon === tagIcon)
       if (!target) target = selectComponents.find(item => item.tagIcon === tagIcon)
       this.$emit('tag-change', target)
+    },
+    querySearchAsync(queryString, cb) {
+      const { restaurants } = this
+      const results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants
+
+      cb(results)
+    },
+    createStateFilter(queryString) {
+      return state => {
+        const query = queryString.toLowerCase()
+        return state.value.toLowerCase().indexOf(query) !== -1 || state.label.toLowerCase().indexOf(query)
+      }
+    },
+    handleSelect(item) {
+      console.log(item, this.activeData.vModel)
+      this.activeData.label = item.label
     }
   }
 }

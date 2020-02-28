@@ -2,6 +2,7 @@ const DRAWING_ITEMS = 'drawingItems'
 const DRAWING_ID = 'idGlobal'
 const TREE_NODE_ID = 'treeNodeId'
 const FORM_CONF = 'formConf'
+const FILELDS = 'filelds'
 
 export function getDrawingList() {
   const str = localStorage.getItem(DRAWING_ITEMS)
@@ -41,4 +42,8 @@ export function getFormConf() {
 
 export function saveFormConf(obj) {
   localStorage.setItem(FORM_CONF, JSON.stringify(obj))
+}
+
+export function getFileds() {
+  return localStorage.getItem(FILELDS)
 }
