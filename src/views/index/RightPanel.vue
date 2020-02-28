@@ -32,7 +32,13 @@
             </el-select>
           </el-form-item>
           <el-form-item v-if="activeData.vModel!==undefined" label="字段名">
-            <el-autocomplete v-model="activeData.vModel" style="width: 100%" :fetch-suggestions="querySearchAsync" placeholder="请输入字段名（v-model）" @select="handleSelect" />
+            <el-autocomplete
+              v-model="activeData.vModel"
+              style="width: 100%"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="请输入字段名（v-model）"
+              @select="handleSelect"
+            />
           </el-form-item>
           <el-form-item v-if="activeData.componentName!==undefined" label="组件名">
             {{ activeData.componentName }}
