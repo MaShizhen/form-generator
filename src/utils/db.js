@@ -45,5 +45,9 @@ export function saveFormConf(obj) {
 }
 
 export function getFileds() {
-  return localStorage.getItem(FILELDS)
+  const res = localStorage.getItem(FILELDS)
+  if (res) {
+    return JSON.parse(res)
+  }
+  return []
 }
