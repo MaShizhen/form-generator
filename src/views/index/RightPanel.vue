@@ -34,11 +34,19 @@
           <el-form-item v-if="activeData.vModel!==undefined" label="字段名">
             <el-autocomplete
               v-model="activeData.vModel"
+              class="my-autocomplete"
               style="width: 100%"
               :fetch-suggestions="querySearchAsync"
               placeholder="请输入字段名（v-model）"
               @select="handleSelect"
-            />
+            >
+              <template slot-scope="{ item }">
+                <div style="clear: both;">
+                  <span style="font-size: 16px;">{{ item.label }}</span>
+                  <span style="float: right;">{{ item.value }}</span>
+                </div>
+              </template>
+            </el-autocomplete>
           </el-form-item>
           <el-form-item v-if="activeData.componentName!==undefined" label="组件名">
             {{ activeData.componentName }}
@@ -976,5 +984,24 @@ export default {
 }
 .node-icon{
   color: #bebfc3;
+}
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
+
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .addr {
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
+  }
 }
 </style>
